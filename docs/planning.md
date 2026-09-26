@@ -7,10 +7,10 @@ Build strictly in this order; each step depends on the previous ones.
 
 | # | Step | Status |
 |---|---|---|
-| 0 | Project setup | ☐ |
-| 1 | Tenancy, auth, roles, app shell | ☐ |
-| 2 | School setup | ☐ |
-| 3 | Students & admission | ☐ |
+| 0 | Project setup | ☑ |
+| 1 | Tenancy, auth, roles, app shell | ☑ |
+| 2 | School setup | ☑ |
+| 3 | Students & admission | ☑ |
 | 4 | Staff | ☐ |
 | 5 | Attendance | ☐ |
 | 6 | Fees | ☐ |
@@ -25,34 +25,34 @@ Priority if time runs short: **7 (results) and 6 (fees) must be fully working.**
 ---
 
 ## 0. Project setup
-- [ ] Laravel 12 project with the Vue starter kit (Inertia + TS)
-- [ ] Docker: `docker compose up -d --build`, .env pointed at mysql/redis, app reachable on localhost:8000 and demo.localhost:8000
-- [ ] Install: spatie/laravel-permission (teams on), spatie/browsershot (+ puppeteer), pestphp, vue-i18n
-- [ ] `.env` timezone Asia/Dhaka, locale bn with en fallback
-- [ ] Bangla font (Noto Sans Bengali / Hind Siliguri) loaded for UI and PDFs
-- [ ] `bn_digits()` / `toBnDigits()` helpers with tests
+- [x] Laravel 12 project with the Vue starter kit (Inertia + TS)
+- [x] Docker: `docker compose up -d --build`, .env pointed at mysql/redis, app reachable on localhost:8000 and demo.localhost:8000
+- [x] Install: spatie/laravel-permission (teams on), spatie/browsershot (+ puppeteer), pestphp, vue-i18n
+- [x] `.env` timezone Asia/Dhaka, locale bn with en fallback
+- [x] Bangla font (Noto Sans Bengali / Hind Siliguri) loaded for UI and PDFs
+- [x] `bn_digits()` / `toBnDigits()` helpers with tests
 
 ## 1. Tenancy, auth, roles, app shell
-- [ ] `schools` table, `BelongsToSchool` trait, `CurrentSchool` singleton, `ResolveSchool` middleware (subdomain)
-- [ ] Users with `school_id`, `user_type`; login per school subdomain
-- [ ] Roles + permissions seeded; policies base
-- [ ] App layout: sidebar by role, top bar with school name, academic year switcher, bn/en toggle
-- [ ] Reusable `DataTable.vue` (server pagination, search, filters) and form components
-- [ ] Test: school A user cannot access school B records (404)
+- [x] `schools` table, `BelongsToSchool` trait, `CurrentSchool` singleton, `ResolveSchool` middleware (subdomain)
+- [x] Users with `school_id`, `user_type`; login per school subdomain
+- [x] Roles + permissions seeded; policies base (permission checks wired via `can:` route middleware; Policy classes come when a rule depends on the record, e.g. teachers and their assigned sections)
+- [x] App layout: sidebar by role, top bar with school name, academic year switcher (placeholder — wired in step 2), bn/en toggle
+- [x] Reusable `DataTable.vue` (server pagination, search, filters) and form components
+- [x] Test: school A user cannot access school B records (404)
 
 ## 2. School setup
-- [ ] CRUD: academic years (one current), shifts, versions, classes, groups, sections, subjects
-- [ ] Subjects: combined_key, optional-allowed flag, ordering
-- [ ] School profile page: logo, signature upload, bn/en names
-- [ ] Setup is simple forms; no wizard needed for MVP
+- [x] CRUD: academic years (one current), shifts, versions, classes, groups, sections, subjects
+- [x] Subjects: combined_key, optional-allowed flag, ordering
+- [x] School profile page: logo, signature upload, bn/en names
+- [x] Setup is simple forms; no wizard needed for MVP
 
 ## 3. Students & admission
-- [ ] Admission form: student + guardian(s) + enrollment (year, section, group, roll, optional subject) in one transaction
-- [ ] Reuse existing guardian by phone search (siblings)
-- [ ] Student list: filter by class/section/status, search by name/roll/uid
-- [ ] Student profile page: info, guardians, enrollment history, (later) attendance/fees/results tabs
-- [ ] Excel/CSV import with validation report (rows with errors listed, valid rows imported)
-- [ ] Auto `student_uid`, auto-suggest next roll
+- [x] Admission form: student + guardian(s) + enrollment (year, section, group, roll, optional subject) in one transaction
+- [x] Reuse existing guardian by phone search (siblings)
+- [x] Student list: filter by class/section/status, search by name/roll/uid
+- [x] Student profile page: info, guardians, enrollment history, (later) attendance/fees/results tabs — added in steps 5–7
+- [x] Excel/CSV import with validation report (rows with errors listed, valid rows imported)
+- [x] Auto `student_uid`, auto-suggest next roll
 
 ## 4. Staff
 - [ ] Staff CRUD with optional login creation and role

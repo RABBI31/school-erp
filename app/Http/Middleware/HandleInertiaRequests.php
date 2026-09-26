@@ -2,7 +2,9 @@
 
 namespace App\Http\Middleware;
 
-use Illuminate\Foundation\Inspiring;
+use App\Models\AcademicYear;
+use App\Support\CurrentAcademicYear;
+use App\Support\CurrentSchool;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -36,14 +38,24 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
-        [$message, $author] = str(Inspiring::quotes()->random())->explode('-');
-
         return array_merge(parent::share($request), [
             ...parent::share($request),
             'name' => config('app.name'),
-            'quote' => ['message' => trim($message), 'author' => trim($author)],
+            'school' => fn () => app(CurrentSchool::class)->get()?->only(['id', 'name_en', 'name_bn', 'slug', 'logo_path']),
+            'locale' => fn () => app()->getLocale(),
+            'academicYears' => fn () => $request->user() && app(CurrentSchool::class)->has()
+                ? AcademicYear::query()->orderByDesc('starts_on')->get(['id', 'name', 'is_current'])
+                : [],
+            'academicYear' => fn () => $request->user()
+                ? app(CurrentAcademicYear::class)->get()?->only(['id', 'name', 'is_current'])
+                : null,
+            'flash' => [
+                'success' => fn () => $request->session()->get('success'),
+                'error' => fn () => $request->session()->get('error'),
+            ],
             'auth' => [
-                'user' => $request->user(),
+                'user' => fn () => $request->user()?->only(['id', 'name', 'email', 'phone']),
+                'permissions' => fn () => $request->user()?->getAllPermissions()->pluck('name')->values()->all() ?? [],
             ],
         ]);
     }

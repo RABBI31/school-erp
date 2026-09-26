@@ -1,0 +1,289 @@
+{
+    "app": {
+        "name": "School ERP"
+    },
+    "common": {
+        "save": "Save",
+        "saved": "Saved.",
+        "search": "Search…",
+        "noResults": "No results found.",
+        "previous": "Previous",
+        "next": "Next",
+        "showing": "Showing {from}–{to} of {total}",
+        "all": "All",
+        "add": "Add",
+        "edit": "Edit",
+        "delete": "Delete",
+        "cancel": "Cancel",
+        "close": "Close",
+        "actions": "Actions",
+        "yes": "Yes",
+        "no": "No",
+        "deleteTitle": "Delete?",
+        "deleteConfirm": "Delete “{name}”? This cannot be undone."
+    },
+    "nav": {
+        "menu": "Menu",
+        "dashboard": "Dashboard",
+        "settings": "Settings",
+        "logout": "Log out",
+        "setup": "School setup",
+        "students": "Students"
+    },
+    "shell": {
+        "academicYear": "Academic year",
+        "academicYearPending": "Academic years are added in School setup",
+        "language": "Language"
+    },
+    "auth": {
+        "loginTitle": "Log in to your account",
+        "loginDescription": "Enter your email or mobile number and your password",
+        "login": "Email or mobile number",
+        "loginPlaceholder": "name{'@'}example.com or 01XXXXXXXXX",
+        "password": "Password",
+        "remember": "Remember me",
+        "submit": "Log in",
+        "confirmTitle": "Confirm your password",
+        "confirmDescription": "This is a secure area. Please confirm your password before continuing.",
+        "confirmSubmit": "Confirm password"
+    },
+    "dashboard": {
+        "title": "Dashboard"
+    },
+    "settings": {
+        "title": "Settings",
+        "description": "Manage your profile and account settings",
+        "profile": "Profile",
+        "password": "Password",
+        "appearance": "Appearance",
+        "profileTitle": "Profile settings",
+        "profileHeading": "Profile information",
+        "profileDescription": "Update your name and email address",
+        "name": "Name",
+        "namePlaceholder": "Full name",
+        "email": "Email address",
+        "passwordTitle": "Password settings",
+        "passwordHeading": "Update password",
+        "passwordDescription": "Use a long, random password to keep your account secure",
+        "currentPassword": "Current password",
+        "newPassword": "New password",
+        "confirmPassword": "Confirm password",
+        "savePassword": "Save password",
+        "appearanceTitle": "Appearance settings",
+        "appearanceDescription": "Choose how the app looks on this device",
+        "light": "Light",
+        "dark": "Dark",
+        "system": "System"
+    },
+    "welcome": {
+        "description": "Open your school's own address to log in, for example {example}"
+    },
+    "setup": {
+        "title": "School setup",
+        "description": "Classes, sections, subjects and the school profile that the rest of the app uses.",
+        "name": "Name",
+        "profile": {
+            "title": "School profile",
+            "description": "Names, address, logo and the principal’s signature, printed on receipts and mark sheets.",
+            "nameEn": "Name (English)",
+            "nameBn": "Name (Bangla)",
+            "eiin": "EIIN",
+            "address": "Address",
+            "phone": "Phone",
+            "email": "Email",
+            "defaultLocale": "Default language",
+            "logo": "Logo",
+            "signature": "Principal’s signature",
+            "uploadHint": "PNG, JPG or WebP, up to 1 MB",
+            "noSignature": "No signature uploaded yet"
+        },
+        "years": {
+            "title": "Academic years",
+            "description": "One year is current; most screens show it by default.",
+            "name": "Year",
+            "startsOn": "Starts on",
+            "endsOn": "Ends on",
+            "current": "Current",
+            "makeCurrent": "Make current",
+            "add": "Add academic year",
+            "edit": "Edit academic year"
+        },
+        "shifts": {
+            "title": "Shifts",
+            "description": "For example Morning, Day",
+            "add": "Add shift",
+            "edit": "Edit shift"
+        },
+        "versions": {
+            "title": "Versions",
+            "description": "For example Bangla, English",
+            "add": "Add version",
+            "edit": "Edit version"
+        },
+        "groups": {
+            "title": "Groups",
+            "description": "Science, Business Studies, Humanities (classes 9–10)",
+            "add": "Add group",
+            "edit": "Edit group"
+        },
+        "classes": {
+            "title": "Classes",
+            "description": "Listed in class order.",
+            "nameEn": "Name (English)",
+            "nameBn": "Name (Bangla)",
+            "numericOrder": "Order (6, 7, 8…)",
+            "hasGroups": "Has groups (Science / Business / Humanities)",
+            "add": "Add class",
+            "edit": "Edit class"
+        },
+        "sections": {
+            "title": "Sections",
+            "description": "Sections of each class, by shift and version.",
+            "class": "Class",
+            "shift": "Shift",
+            "version": "Version",
+            "name": "Section",
+            "capacity": "Capacity",
+            "add": "Add section",
+            "edit": "Edit section"
+        },
+        "subjects": {
+            "title": "Subjects",
+            "description": "Subjects of each class, in display order.",
+            "class": "Class",
+            "group": "Group",
+            "commonGroup": "Common (all groups)",
+            "nameEn": "Name (English)",
+            "nameBn": "Name (Bangla)",
+            "code": "Code",
+            "combinedKey": "Combined key",
+            "combinedKeyHint": "Papers with the same key count as one subject, e.g. “bangla” for Bangla 1st + 2nd paper.",
+            "optional": "Can be the optional (4th) subject",
+            "optionalShort": "Optional",
+            "displayOrder": "Order",
+            "displayOrderHint": "Leave empty to add it at the end.",
+            "add": "Add subject",
+            "edit": "Edit subject"
+        }
+    },
+    "enums": {
+        "gender": {
+            "male": "Male",
+            "female": "Female",
+            "other": "Other"
+        },
+        "studentStatus": {
+            "active": "Active",
+            "left": "Left",
+            "transferred": "Transferred",
+            "graduated": "Graduated"
+        },
+        "enrollmentStatus": {
+            "active": "Active",
+            "promoted": "Promoted",
+            "retained": "Retained",
+            "left": "Left"
+        },
+        "relation": {
+            "father": "Father",
+            "mother": "Mother",
+            "other": "Other"
+        },
+        "religion": {
+            "islam": "Islam",
+            "hinduism": "Hinduism",
+            "buddhism": "Buddhism",
+            "christianity": "Christianity",
+            "other": "Other"
+        }
+    },
+    "students": {
+        "title": "Students",
+        "description": "Students enrolled in the academic year you are viewing.",
+        "noYear": "Add an academic year in School setup first.",
+        "admit": "Admit student",
+        "import": "Import",
+        "roll": "Roll",
+        "student": "Student",
+        "uid": "Student ID",
+        "classSection": "Class / section",
+        "class": "Class",
+        "section": "Section",
+        "group": "Group",
+        "status": "Status",
+        "gender": "Gender",
+        "view": "View",
+        "admission": {
+            "title": "Admission",
+            "editTitle": "Edit student",
+            "studentInfo": "Student",
+            "guardians": "Guardians",
+            "enrollment": "Class and roll",
+            "noEnrollment": "Not enrolled in the academic year you are viewing.",
+            "submit": "Admit",
+            "save": "Save changes"
+        },
+        "fields": {
+            "nameEn": "Name (English)",
+            "nameBn": "Name (Bangla)",
+            "dateOfBirth": "Date of birth",
+            "bloodGroup": "Blood group",
+            "religion": "Religion",
+            "fatherName": "Father’s name",
+            "motherName": "Mother’s name",
+            "presentAddress": "Present address",
+            "permanentAddress": "Permanent address",
+            "birthRegNo": "Birth registration no.",
+            "admissionDate": "Admission date",
+            "photo": "Photo",
+            "photoHint": "JPG, PNG or WebP, up to 2 MB",
+            "academicYear": "Academic year",
+            "rollHint": "Suggested: the next free roll in this section.",
+            "optionalSubject": "Optional (4th) subject",
+            "none": "None"
+        },
+        "guardian": {
+            "phone": "Mobile number",
+            "altPhone": "Other number",
+            "name": "Name (English)",
+            "nameBn": "Name (Bangla)",
+            "relation": "Relation",
+            "occupation": "Occupation",
+            "nid": "NID",
+            "primary": "Primary (receives SMS)",
+            "primaryShort": "Primary",
+            "found": "Already a guardian here:",
+            "childrenOf": "Children: {names}",
+            "use": "Use this guardian",
+            "linked": "Linked existing guardian",
+            "unlink": "Enter a new guardian instead",
+            "add": "Add guardian",
+            "addAnother": "Add another guardian",
+            "edit": "Edit guardian",
+            "remove": "Remove",
+            "makePrimary": "Make primary",
+            "removeConfirm": "Remove {name} as a guardian of this student?"
+        },
+        "profile": {
+            "info": "Details",
+            "guardians": "Guardians",
+            "history": "Enrollment history",
+            "year": "Year",
+            "optional": "Optional subject",
+            "siblings": "Also guardian of:"
+        },
+        "importPage": {
+            "title": "Import students",
+            "description": "Upload one section’s students from Excel (.xlsx) or CSV. Valid rows are admitted; rows with errors are listed so you can fix and upload them again.",
+            "file": "File",
+            "template": "Download template",
+            "columns": "Columns (first row of the file):",
+            "columnsHint": "Dates as DD/MM/YYYY. gender: male/female. group: the group name (classes 9–10). A guardian whose mobile number already exists is reused.",
+            "submit": "Import",
+            "imported": "{count} students imported.",
+            "failedTitle": "{count} rows were not imported",
+            "row": "Row",
+            "errors": "Problems"
+        }
+    }
+}

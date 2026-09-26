@@ -35,4 +35,13 @@ return [
         ],
     ],
 
+    'chrome' => [
+        'path' => env('CHROME_PATH', '/usr/bin/chromium'),
+    ],
+
+    'node' => [
+        'binary' => env('NODE_BINARY', '/usr/bin/node'),
+        'npm' => env('NPM_BINARY', '/usr/bin/npm'),
+    ],
+
 ];

@@ -2,47 +2,70 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Support\Phone;
+use Database\Factories\UserFactory;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Spatie\Permission\Traits\HasRoles;
 
+/**
+ * Not scoped by BelongsToSchool: platform admins have no school, and the
+ * auth provider must load the user before a school is known. Login and
+ * ResolveSchool check school_id explicitly instead.
+ */
 class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    /** @use HasFactory<UserFactory> */
+    use HasFactory, HasRoles, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
+    public const TYPE_PLATFORM_ADMIN = 'platform_admin';
+
+    public const TYPE_STAFF = 'staff';
+
+    public const TYPE_GUARDIAN = 'guardian';
+
     protected $fillable = [
         'name',
         'email',
+        'phone',
         'password',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
+    protected $attributes = [
+        'user_type' => self::TYPE_STAFF,
+    ];
+
     protected function casts(): array
     {
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * @return BelongsTo<School, $this>
+     */
+    public function school(): BelongsTo
+    {
+        return $this->belongsTo(School::class);
+    }
+
+    protected function email(): Attribute
+    {
+        return Attribute::set(fn (?string $value) => $value === null || $value === '' ? null : strtolower(trim($value)));
+    }
+
+    protected function phone(): Attribute
+    {
+        return Attribute::set(fn (?string $value) => Phone::normalize($value));
     }
 }

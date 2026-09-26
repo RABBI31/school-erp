@@ -1,0 +1,41 @@
+{
+  "version": 1,
+  "skills": {
+    "laravel-async": {
+      "source": "Foysal50x/skills",
+      "sourceType": "github",
+      "skillPath": "skills/laravel-async/SKILL.md",
+      "computedHash": "99eb8cdd2a549d22f53d93d84c135faedaf9fbb8b2d196ebbacc223da4b27211"
+    },
+    "laravel-eloquent": {
+      "source": "Foysal50x/skills",
+      "sourceType": "github",
+      "skillPath": "skills/laravel-eloquent/SKILL.md",
+      "computedHash": "0da4fd58780009eb00f5ee1da21ede227b1ef98a190116892b862cf003305348"
+    },
+    "laravel-engineering": {
+      "source": "Foysal50x/skills",
+      "sourceType": "github",
+      "skillPath": "skills/laravel-engineering/SKILL.md",
+      "computedHash": "2212f3c89af05afe2424ec02707e8317c1f72c548dfad21b55384354c0eedd61"
+    },
+    "laravel-patterns": {
+      "source": "Foysal50x/skills",
+      "sourceType": "github",
+      "skillPath": "skills/laravel-patterns/SKILL.md",
+      "computedHash": "8a30966e7ff9e45c463f07d1d75b6d85dd18aedd77997f2a75ed3f8f264eee59"
+    },
+    "laravel-rest-api": {
+      "source": "Foysal50x/skills",
+      "sourceType": "github",
+      "skillPath": "skills/laravel-rest-api/SKILL.md",
+      "computedHash": "14b29d4ff3d975ff9459046809dc628d8d9f9ae67397837051aa24192047adf3"
+    },
+    "laravel-testing": {
+      "source": "Foysal50x/skills",
+      "sourceType": "github",
+      "skillPath": "skills/laravel-testing/SKILL.md",
+      "computedHash": "ee90518f929c3aeb90b6e9068c58367c1bf8f424678a4c4647b262ed09e6814f"
+    }
+  }
+}

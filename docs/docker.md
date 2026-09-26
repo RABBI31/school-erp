@@ -1,6 +1,6 @@
 # Docker Setup
 
-Everything runs in containers: PHP 8.3, Node 20, MySQL 8, Redis, and Chromium with Bangla fonts for PDF generation. You only install Docker on your machine.
+Everything runs in containers: PHP 8.4, Node 20, MySQL 8, Redis, and Chromium with Bangla fonts for PDF generation. You only install Docker on your machine.
 
 ## Services
 
@@ -8,10 +8,10 @@ Everything runs in containers: PHP 8.3, Node 20, MySQL 8, Redis, and Chromium wi
 |---|---|---|
 | app | Laravel (`artisan serve`) | 8000 |
 | vite | Frontend dev server with hot reload | 5173 |
-| queue | Queue worker (SMS, bulk PDFs) | — |
+| queue | Queue worker (SMS, bulk PDFs) — `database` driver | — |
 | scheduler | Laravel scheduler | — |
 | mysql | Database | 3306 |
-| redis | Cache and queues | 6379 |
+| redis | Not used yet (queues, cache and sessions are on `database` for the demo) | 6379 |
 
 ## First run
 
@@ -32,15 +32,21 @@ DB_DATABASE=school_erp
 DB_USERNAME=school
 DB_PASSWORD=secret
 
-REDIS_HOST=redis
-QUEUE_CONNECTION=redis
-CACHE_STORE=redis
-SESSION_DRIVER=redis
+# Queues, cache and sessions use the database for the demo (see CLAUDE.md).
+# The image has no phpredis extension, so don't set REDIS_CLIENT=phpredis.
+QUEUE_CONNECTION=database
+CACHE_STORE=database
+SESSION_DRIVER=database
 SESSION_DOMAIN=null
+REDIS_HOST=redis
 
 CHROME_PATH=/usr/bin/chromium
 NODE_BINARY=/usr/bin/node
 NPM_BINARY=/usr/bin/npm
+
+# macOS/Linux: build the image with your own user id so files stay editable
+HOST_UID=501        # output of `id -u`
+HOST_GID=1000
 ```
 
 4. Start and install:
@@ -50,8 +56,11 @@ docker compose up -d --build     # or: make up
 docker compose exec app composer install
 docker compose exec app npm install
 docker compose exec app php artisan key:generate
+docker compose exec app php artisan storage:link   # uploaded school logos
 docker compose exec app php artisan migrate --seed
 ```
+
+The MySQL container also creates `school_erp_test` (from `docker/mysql/init.sql`) the first time its volume is created. The test suite runs against it — `phpunit.xml` points there — never SQLite.
 
 5. Open **http://localhost:8000**. Tenant subdomains work as `http://demo.localhost:8000` in Chrome and Firefox without editing any hosts file.
 
@@ -106,8 +115,10 @@ Browsershot::html($html)
 
 - **Port already in use:** something else uses 8000 or 3306. Change the left side of the port mapping in `docker-compose.yml`, e.g. `"8001:8000"`.
 - **`SQLSTATE[HY000] [2002] Connection refused`:** MySQL wasn't ready yet, or `DB_HOST` is still `127.0.0.1`. It must be `mysql`.
-- **Permission denied on `storage/`:** rebuild passing your user id: `UID=$(id -u) GID=$(id -g) docker compose up -d --build` (Linux/macOS only).
+- **Permission denied on `storage/`:** rebuild with your user id: set `HOST_UID` / `HOST_GID` in `.env`, or run `HOST_UID=$(id -u) HOST_GID=$(id -g) docker compose up -d --build` (Linux/macOS only). Don't use `UID=`/`GID=` — in zsh (the macOS default shell) those are read-only shell variables and the command fails with `failed to change group ID: operation not permitted`.
+- **Tests fail with `Unknown database 'school_erp_test'`:** the MySQL volume was created before `docker/mysql/init.sql` existed. Run the SQL in that file once: `docker compose exec -T mysql mysql -uroot -psecret < docker/mysql/init.sql`.
 - **Frontend changes don't appear:** the `vite` container isn't running, or `usePolling` is missing in the Vite config.
+- **`Vite manifest not found` in the browser:** `public/hot` is missing — this can happen after Vite restarts itself because `.env` or `vite.config.ts` changed. Run `docker compose restart vite`.
 - **Slow on Windows:** keep the project inside the WSL filesystem (`\\wsl$\Ubuntu\home\...`), not in `C:\Users\...`.
 
 ## Later, for production

@@ -11,9 +11,9 @@ const { class: containerClass = '' } = defineProps<Props>();
 const { appearance, updateAppearance } = useAppearance();
 
 const tabs = [
-    { value: 'light', Icon: Sun, label: 'Light' },
-    { value: 'dark', Icon: Moon, label: 'Dark' },
-    { value: 'system', Icon: Monitor, label: 'System' },
+    { value: 'light', Icon: Sun, label: 'settings.light' },
+    { value: 'dark', Icon: Moon, label: 'settings.dark' },
+    { value: 'system', Icon: Monitor, label: 'settings.system' },
 ] as const;
 </script>
 
@@ -31,7 +31,7 @@ const tabs = [
             ]"
         >
             <component :is="Icon" class="-ml-1 h-4 w-4" />
-            <span class="ml-1.5 text-sm">{{ label }}</span>
+            <span class="ml-1.5 text-sm">{{ $t(label) }}</span>
         </button>
     </div>
 </template>
