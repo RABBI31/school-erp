@@ -1,0 +1,76 @@
+services:
+  app:
+    build:
+      context: .
+      args:
+        UID: "${HOST_UID:-1000}"
+        GID: "${HOST_GID:-1000}"
+    image: school-erp-app
+    container_name: school-erp-app
+    command: php artisan serve --host=0.0.0.0 --port=8000
+    volumes:
+      - .:/var/www/html
+    ports:
+      - "8000:8000"
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_started
+
+  vite:
+    image: school-erp-app
+    container_name: school-erp-vite
+    command: npm run dev -- --host 0.0.0.0
+    volumes:
+      - .:/var/www/html
+    ports:
+      - "5173:5173"
+    depends_on:
+      - app
+
+  queue:
+    image: school-erp-app
+    container_name: school-erp-queue
+    command: php artisan queue:work --tries=3 --timeout=120
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      - app
+      - redis
+
+  scheduler:
+    image: school-erp-app
+    container_name: school-erp-scheduler
+    command: php artisan schedule:work
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      - app
+
+  mysql:
+    image: mysql:8.0
+    container_name: school-erp-mysql
+    environment:
+      MYSQL_DATABASE: school_erp
+      MYSQL_USER: school
+      MYSQL_PASSWORD: secret
+      MYSQL_ROOT_PASSWORD: secret
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-psecret"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  redis:
+    image: redis:7-alpine
+    container_name: school-erp-redis
+    ports:
+      - "6379:6379"
+
+volumes:
+  mysql-data:
