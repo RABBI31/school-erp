@@ -1,11 +1,13 @@
 <?php
 
 use App\Models\AcademicYear;
+use App\Models\ClassTeacher;
 use App\Models\Enrollment;
 use App\Models\Guardian;
 use App\Models\School;
 use App\Models\SchoolClass;
 use App\Models\Section;
+use App\Models\Staff;
 use App\Models\Student;
 use Database\Seeders\RolesAndPermissionsSeeder;
 use Illuminate\Http\UploadedFile;
@@ -82,7 +84,7 @@ test('editing updates the student and this year\'s enrollment', function () {
         'section_id' => $enrollment->section_id, 'group_id' => null, 'roll' => 3, 'optional_subject_id' => null,
     ];
 
-    $this->put("/students/{$enrollment->student_id}", $data)->assertSessionHasNoErrors();
+    $this->put("/students/{$enrollment->student_id}", $data)->assertSessionHasNoErrors()->assertRedirect();
     $this->put("/students/{$enrollment->student_id}", [...$data, 'roll' => 4])->assertSessionHasNoErrors();
 
     expect($enrollment->refresh()->roll)->toBe(4)
@@ -101,7 +103,7 @@ test('the photo is private and only served to staff who can view students', func
         'photo' => UploadedFile::fake()->image('photo.jpg'),
     ];
 
-    $this->put("/students/{$enrollment->student_id}", $data)->assertSessionHasNoErrors();
+    $this->put("/students/{$enrollment->student_id}", $data)->assertSessionHasNoErrors()->assertRedirect();
 
     $path = $enrollment->student->refresh()->photo_path;
     Storage::disk('local')->assertExists($path);
@@ -145,6 +147,11 @@ test('the viewing roles can list but not change students', function (string $rol
     $user = $this->schoolUser($this->admin->school);
     $user->assignRole($role);
     $enrollment = enrolled();
+
+    // Teachers see only their own sections (see TeacherVisibilityTest); give this one the section.
+    $staff = Staff::factory()->create();
+    $staff->user()->associate($user)->save();
+    ClassTeacher::create(['academic_year_id' => $this->year->id, 'section_id' => $enrollment->section_id, 'staff_id' => $staff->id]);
 
     $this->actingAs($user);
     $this->get('/students')->assertOk();

@@ -27,6 +27,11 @@ abstract class TestCase extends BaseTestCase
         // Page tests render the Blade shell; they must not depend on a running
         // Vite dev server (public/hot) or on built assets (public/build).
         $this->withoutVite();
+
+        // Storage::fake() disks live under storage_path(). Keep them off the
+        // Docker Desktop bind mount, where re-creating a just-deleted directory
+        // intermittently fails.
+        $this->app->useStoragePath(sys_get_temp_dir().'/school-erp-test-storage');
     }
 
     /**

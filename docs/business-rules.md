@@ -28,7 +28,7 @@ Percent is compared after rounding to nearest whole number **[confirm]**. Store 
 ### Subject pass/fail
 - If an exam subject uses parts (CQ / MCQ / practical), the student must reach the pass mark in **each part used**, AND the total. Failing any part = F for that subject, regardless of total.
 - If parts are not used, only `total_pass` applies.
-- `is_absent` = F with 0 marks.
+- `is_absent` = F with 0 marks. For combined papers, absent in any paper = F for the combined subject.
 - Subject percent = total obtained / total_full × 100.
 
 ### Combined subjects
@@ -37,6 +37,7 @@ Percent is compared after rounding to nearest whole number **[confirm]**. Store 
 - The combined result counts as one subject in GPA.
 
 ### GPA
+- A student sits every exam subject of their class that is common or belongs to their group. A subject that may be a 4th subject but that the student did not choose counts as compulsory (e.g. Science: Higher Math as 4th → Biology compulsory) **[confirm]**.
 - Compulsory subjects = all subjects for the student's class (and group) except their optional (4th) subject.
 - If ANY compulsory subject is F → GPA = 0.00, letter F.
 - Otherwise:
@@ -59,7 +60,7 @@ Equal on 2–3 = same position? **[confirm]** Default: no ties, roll breaks them
 
 ### Publishing
 - Exam status flow: `draft` → `marks_entry` → `published`.
-- Only `school_admin` can publish. Publishing runs GradeCalculator for all enrollments, fills `exam_results` and `subject_results`.
+- Only `school_admin` can publish. Publishing runs GradeCalculator for all active enrollments of the exam's classes, fills `exam_results` and `subject_results`. Publishing is refused while any mark is missing (a blank is never treated as F); mark the student absent instead.
 - After publishing, marks are read-only. Unpublish (admin only) → edit → republish recalculates.
 - Every mark create/update writes a `mark_audits` row.
 - Teachers can only enter marks for (section, subject) pairs assigned to them in `subject_teachers`.
@@ -78,8 +79,9 @@ Equal on 2–3 = same position? **[confirm]** Default: no ties, roll breaks them
 
 - Fee structure = amount per (academic year, class, fee head).
 - Monthly invoice generation: artisan command `fees:generate {month}` creates one invoice per active enrollment for the monthly heads, plus any one-time heads not yet billed. Idempotent — running twice for a month must not duplicate invoices.
-- Waivers apply per enrollment per fee head (percent or fixed) and are applied at invoice generation. Invoice stores the waiver amount per item.
-- Default due date: 10th of the month **[confirm]**. Late fine: fixed amount per invoice after due date, configurable, default 0 **[confirm]**.
+- Waivers apply per enrollment per fee head (percent or fixed) and are applied at invoice generation. Invoice stores the waiver amount per item. A fixed waiver is capped at the fee; a fully waived invoice is `paid`. Changing a waiver does not change invoices already issued.
+- Heads: `monthly` heads are billed every month; `yearly` heads once per enrollment (per academic year); `one_time` heads once per student ever (e.g. admission fee). All are billed on the first invoice generated after they are set in the fee structure.
+- Default due date: 10th of the month (`config/school.php` → `fees.due_day`) **[confirm]**. Late fine: fixed amount per invoice after due date, configurable, default 0 **[confirm]** — not built in the MVP (`fine_total` stays 0).
 - Payment:
   - Can be any amount ≥ 1.
   - Allocated to the enrollment's unpaid invoices, oldest first, through `payment_allocations`.
@@ -110,6 +112,8 @@ Equal on 2–3 = same position? **[confirm]** Default: no ties, roll breaks them
 - `SmsService` with a driver interface. Drivers: `log` (default in dev — writes to `sms_logs` and laravel.log) and one real provider later.
 - Bangla SMS is Unicode: 70 characters per part (67 for multipart). English: 160 (153 multipart). Count parts and deduct from `sms_balance`.
 - Never send if balance is insufficient; mark as `failed` with reason.
+- Bulk sends (custom SMS, notice SMS) go to the primary guardian of each active student in the year, one SMS per phone number (siblings sharing a guardian get one). The whole send is refused up front if the balance cannot cover every recipient.
+- Notices: staff see published notices for `all` / `staff` on the dashboard. There is no guardian portal in the MVP, so guardian and class notices reach guardians only through the optional "also send by SMS" when the notice is created.
 - Templates (bn default):
   - Absent: "প্রিয় অভিভাবক, আপনার সন্তান {name} (রোল {roll}) আজ {date} তারিখে বিদ্যালয়ে অনুপস্থিত। — {school}"
   - Due: "{name} এর বকেয়া বেতন {amount} টাকা। অনুগ্রহ করে {due_date} এর মধ্যে পরিশোধ করুন। — {school}"

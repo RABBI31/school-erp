@@ -17,6 +17,7 @@ class SchoolProfileRequest extends FormRequest
             'phone' => ['nullable', 'string', 'max:20'],
             'email' => ['nullable', 'email', 'max:255'],
             'default_locale' => ['required', Rule::in(config('app.supported_locales'))],
+            'absent_sms_enabled' => ['required', 'boolean'],
             'logo' => ['nullable', 'image', 'mimes:png,jpg,jpeg,webp', 'max:1024'],
             'signature' => ['nullable', 'image', 'mimes:png,jpg,jpeg,webp', 'max:1024'],
         ];

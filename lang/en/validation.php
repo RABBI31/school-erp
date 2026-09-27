@@ -182,6 +182,9 @@ return [
         'has_groups' => [
             'in_use' => 'This class has group subjects. Remove their group first.',
         ],
+        'subjects' => [
+            'not_in_class' => 'Only subjects of this section\'s class can be assigned.',
+        ],
         'guardians' => [
             'one_primary' => 'Choose exactly one primary guardian (they receive SMS).',
         ],
@@ -191,6 +194,12 @@ return [
         'group_id' => [
             'required_for_class' => 'This class has groups: choose Science, Business Studies or Humanities.',
             'class_without_groups' => 'This class has no groups (Science/Business/Humanities).',
+        ],
+        'total_pass' => [
+            'above_full' => 'The pass mark cannot be more than the full marks.',
+        ],
+        'rules' => [
+            'ranges' => 'The ranges must cover 0 to 100 without gaps or overlaps.',
         ],
         'attribute-name' => [
             'rule-name' => 'custom-message',
@@ -210,6 +219,22 @@ return [
 
     'attributes' => [
         'login' => 'email or mobile number',
+        'amount' => 'amount',
+        'method' => 'payment method',
+        'reason' => 'reason',
+        'month' => 'month',
+        'value' => 'waiver',
+        'fee_head_id' => 'fee head',
+        'transaction_ref' => 'transaction ID',
+        'enrollment_id' => 'student',
+        'total_full' => 'full marks',
+        'total_pass' => 'pass marks',
+        'cq_full' => 'CQ full marks',
+        'cq_pass' => 'CQ pass marks',
+        'mcq_full' => 'MCQ full marks',
+        'mcq_pass' => 'MCQ pass marks',
+        'practical_full' => 'practical full marks',
+        'practical_pass' => 'practical pass marks',
     ],
 
 ];

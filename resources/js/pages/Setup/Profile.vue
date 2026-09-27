@@ -5,9 +5,11 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { NativeSelect } from '@/components/ui/native-select';
 import AppLayout from '@/layouts/AppLayout.vue';
+import { formatNumber } from '@/lib/format';
 import type { BreadcrumbItem } from '@/types';
 import { Head, useForm } from '@inertiajs/vue3';
 import { ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 const props = defineProps<{
     profile: {
@@ -18,7 +20,9 @@ const props = defineProps<{
         phone: string | null;
         email: string | null;
         default_locale: 'bn' | 'en';
+        absent_sms_enabled: boolean;
     };
+    smsBalance: number;
     logoUrl: string | null;
     hasSignature: boolean;
 }>();
@@ -36,9 +40,12 @@ const form = useForm({
     phone: props.profile.phone ?? '',
     email: props.profile.email ?? '',
     default_locale: props.profile.default_locale,
+    absent_sms_enabled: props.profile.absent_sms_enabled,
     logo: null as File | null,
     signature: null as File | null,
 });
+
+const { locale } = useI18n();
 
 // Bust the browser cache after a new signature is uploaded.
 const signatureVersion = ref(Date.now());
@@ -76,7 +83,13 @@ const submit = () => {
                     <FormField id="eiin" :label="$t('setup.profile.eiin')" :error="form.errors.eiin" v-slot="{ id }">
                         <Input :id="id" v-model="form.eiin" inputmode="numeric" />
                     </FormField>
-                    <FormField id="default_locale" :label="$t('setup.profile.defaultLocale')" :error="form.errors.default_locale" required v-slot="{ id }">
+                    <FormField
+                        id="default_locale"
+                        :label="$t('setup.profile.defaultLocale')"
+                        :error="form.errors.default_locale"
+                        required
+                        v-slot="{ id }"
+                    >
                         <NativeSelect :id="id" v-model="form.default_locale">
                             <option value="bn">বাংলা</option>
                             <option value="en">English</option>
@@ -93,8 +106,22 @@ const submit = () => {
                     <Input :id="id" v-model="form.address" />
                 </FormField>
 
+                <div class="space-y-1 rounded-md border p-3">
+                    <label class="flex items-center gap-3 text-sm">
+                        <input v-model="form.absent_sms_enabled" type="checkbox" class="size-4" />
+                        {{ $t('setup.profile.absentSms') }}
+                    </label>
+                    <p class="text-sm text-muted-foreground">{{ $t('setup.profile.smsBalance', { count: formatNumber(smsBalance, locale) }) }}</p>
+                </div>
+
                 <div class="grid gap-6 sm:grid-cols-2">
-                    <FormField id="logo" :label="$t('setup.profile.logo')" :error="form.errors.logo" :hint="$t('setup.profile.uploadHint')" v-slot="{ id }">
+                    <FormField
+                        id="logo"
+                        :label="$t('setup.profile.logo')"
+                        :error="form.errors.logo"
+                        :hint="$t('setup.profile.uploadHint')"
+                        v-slot="{ id }"
+                    >
                         <img v-if="logoUrl" :src="logoUrl" alt="" class="h-20 w-20 rounded border object-contain" />
                         <Input :id="id" type="file" accept="image/png,image/jpeg,image/webp" @change="pick('logo', $event)" />
                     </FormField>

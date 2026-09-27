@@ -29,8 +29,10 @@ Route::middleware('auth')->group(function () {
         });
     });
 
-    Route::middleware('can:students.view')->group(function () {
-        Route::get('students', [StudentController::class, 'index'])->name('students.index');
+    Route::get('students', [StudentController::class, 'index'])->middleware('can:students.view')->name('students.index');
+
+    // StudentPolicy::view: teachers only see students of their own sections.
+    Route::middleware('can:view,student')->group(function () {
         Route::get('students/{student}', [StudentController::class, 'show'])->name('students.show');
         Route::get('students/{student}/photo', [StudentController::class, 'photo'])->name('students.photo');
     });

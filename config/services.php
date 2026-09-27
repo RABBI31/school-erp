@@ -35,6 +35,10 @@ return [
         ],
     ],
 
+    'sms' => [
+        'driver' => env('SMS_DRIVER', 'log'),
+    ],
+
     'chrome' => [
         'path' => env('CHROME_PATH', '/usr/bin/chromium'),
     ],

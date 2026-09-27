@@ -22,12 +22,14 @@ class School extends Model
         'email',
         'default_locale',
         'is_active',
+        'absent_sms_enabled',
     ];
 
     protected $attributes = [
         'default_locale' => 'bn',
         'is_active' => true,
         'sms_balance' => 0,
+        'absent_sms_enabled' => true,
     ];
 
     protected function casts(): array
@@ -35,6 +37,7 @@ class School extends Model
         return [
             'is_active' => 'boolean',
             'sms_balance' => 'integer',
+            'absent_sms_enabled' => 'boolean',
         ];
     }
 

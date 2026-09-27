@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\School;
 use App\Models\User;
+use App\Services\Exams\DefaultGradingScheme;
 use App\Support\CurrentSchool;
 use Illuminate\Database\Seeder;
 
@@ -22,6 +23,11 @@ class DemoSchoolSeeder extends Seeder
             'is_active' => true,
         ]);
 
+        // Demo SMS credit (topping up is a platform-admin task, not built yet). Only on first seed.
+        if ($school->wasRecentlyCreated) {
+            $school->forceFill(['sms_balance' => 1000])->save();
+        }
+
         $previous = $currentSchool->get();
         $currentSchool->set($school);
 
@@ -33,6 +39,8 @@ class DemoSchoolSeeder extends Seeder
             'email_verified_at' => $admin->email_verified_at ?? now(),
         ])->save();
         $admin->syncRoles(['school_admin']);
+
+        app(DefaultGradingScheme::class)->ensure();
 
         $currentSchool->set($previous);
     }

@@ -1,0 +1,36 @@
+<?php
+
+// Labels on the mark sheet and tabulation sheet PDFs.
+
+return [
+    'title' => 'Academic transcript',
+    'tabulation' => 'Tabulation sheet',
+    'name' => 'Name',
+    'student_id' => 'Student ID',
+    'father' => 'Father',
+    'mother' => 'Mother',
+    'class' => 'Class',
+    'roll' => 'Roll',
+    'subject' => 'Subject',
+    'full' => 'Full marks',
+    'cq' => 'CQ',
+    'mcq' => 'MCQ',
+    'practical' => 'Practical',
+    'total' => 'Total',
+    'grade' => 'Grade',
+    'point' => 'Point',
+    'optional' => '4th subject',
+    'absent' => 'Ab',
+    'total_marks' => 'Total marks',
+    'gpa' => 'GPA',
+    'without_optional' => 'without 4th subject',
+    'result' => 'Result',
+    'passed' => 'Passed',
+    'failed' => 'Failed',
+    'position' => 'Position',
+    'position_section' => 'Position in section',
+    'position_class' => 'Position in class',
+    'guardian' => 'Guardian',
+    'class_teacher' => 'Class teacher',
+    'principal' => 'Head teacher',
+];

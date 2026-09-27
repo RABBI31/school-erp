@@ -8,6 +8,7 @@ use Database\Factories\EnrollmentFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * A student's place in one academic year: section, group, roll, optional subject.
@@ -65,10 +66,42 @@ class Enrollment extends Model
     }
 
     /**
+     * @return HasMany<StudentAttendance, $this>
+     */
+    public function attendances(): HasMany
+    {
+        return $this->hasMany(StudentAttendance::class);
+    }
+
+    /**
      * @return BelongsTo<Subject, $this>
      */
     public function optionalSubject(): BelongsTo
     {
         return $this->belongsTo(Subject::class, 'optional_subject_id');
+    }
+
+    /**
+     * @return HasMany<Invoice, $this>
+     */
+    public function invoices(): HasMany
+    {
+        return $this->hasMany(Invoice::class);
+    }
+
+    /**
+     * @return HasMany<Payment, $this>
+     */
+    public function payments(): HasMany
+    {
+        return $this->hasMany(Payment::class);
+    }
+
+    /**
+     * @return HasMany<FeeWaiver, $this>
+     */
+    public function feeWaivers(): HasMany
+    {
+        return $this->hasMany(FeeWaiver::class);
     }
 }

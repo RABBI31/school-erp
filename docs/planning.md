@@ -11,12 +11,12 @@ Build strictly in this order; each step depends on the previous ones.
 | 1 | Tenancy, auth, roles, app shell | ☑ |
 | 2 | School setup | ☑ |
 | 3 | Students & admission | ☑ |
-| 4 | Staff | ☐ |
-| 5 | Attendance | ☐ |
-| 6 | Fees | ☐ |
-| 7 | Exams & results | ☐ |
-| 8 | Notices & SMS | ☐ |
-| 9 | Dashboard | ☐ |
+| 4 | Staff | ☑ |
+| 5 | Attendance | ☑ |
+| 6 | Fees | ☑ |
+| 7 | Exams & results | ☑ |
+| 8 | Notices & SMS | ☑ |
+| 9 | Dashboard | ☑ |
 | 10 | Demo seed data | ☐ |
 | 11 | Polish & rehearsal | ☐ |
 
@@ -55,49 +55,49 @@ Priority if time runs short: **7 (results) and 6 (fees) must be fully working.**
 - [x] Auto `student_uid`, auto-suggest next roll
 
 ## 4. Staff
-- [ ] Staff CRUD with optional login creation and role
-- [ ] Assign class teachers and subject teachers per section for the current year
+- [x] Staff CRUD with optional login creation and role
+- [x] Assign class teachers and subject teachers per section for the current year
 
 ## 5. Attendance
-- [ ] Take attendance: pick section + date, all present by default, toggle absent/late/leave, save — must work well on a phone screen
-- [ ] Absent SMS queued (log driver)
-- [ ] Section monthly attendance sheet (grid: students × days)
-- [ ] Student attendance % on profile
-- [ ] Staff attendance (simple daily entry)
+- [x] Take attendance: pick section + date, all present by default, toggle absent/late/leave, save — must work well on a phone screen
+- [x] Absent SMS queued (log driver)
+- [x] Section monthly attendance sheet (grid: students × days)
+- [x] Student attendance % on profile
+- [x] Staff attendance (simple daily entry)
 
 ## 6. Fees
-- [ ] Fee heads, fee structure per class/year
-- [ ] Waivers per enrollment
-- [ ] `fees:generate {month}` command + button in UI
-- [ ] Collect payment screen: search student → show dues by invoice → enter amount/method → save → print receipt
-- [ ] Receipt PDF (bn/en, school logo) — A5 or half-A4
-- [ ] Reports: daily collection, dues list (with "send due SMS" action), monthly summary
-- [ ] Cancel payment (admin, with reason)
-- [ ] All fee tests in business-rules.md §3 pass
+- [x] Fee heads, fee structure per class/year
+- [x] Waivers per enrollment
+- [x] `fees:generate {month}` command + button in UI
+- [x] Collect payment screen: search student → show dues by invoice → enter amount/method → save → print receipt
+- [x] Receipt PDF (bn/en, school logo) — A5 or half-A4
+- [x] Reports: daily collection, dues list (with "send due SMS" action), monthly summary
+- [x] Cancel payment (admin, with reason)
+- [x] All fee tests in business-rules.md §3 pass
 
 ## 7. Exams & results
-- [ ] Grading scheme + rules (seed the default)
-- [ ] Exam create; exam subjects with part-wise full/pass marks (copy from previous exam)
-- [ ] Mark entry grid per section + subject: fast keyboard entry (Tab/Enter moves down), absent checkbox, autosave draft, validation against full marks
-- [ ] Teachers limited to assigned subjects
-- [ ] Publish → GradeCalculator → exam_results + subject_results
-- [ ] Mark sheet PDF per student (bn/en), bulk PDF per section (queued)
-- [ ] Tabulation sheet per section (landscape PDF)
-- [ ] Result summary: pass rate, GPA distribution, subject-wise fail count
-- [ ] Result SMS to guardians
-- [ ] Mark audit log visible to admin
-- [ ] All GradeCalculator tests in business-rules.md §2 pass
+- [x] Grading scheme + rules (seed the default)
+- [x] Exam create; exam subjects with part-wise full/pass marks (copy from previous exam)
+- [x] Mark entry grid per section + subject: fast keyboard entry (Tab/Enter moves down), absent checkbox, autosave draft, validation against full marks
+- [x] Teachers limited to assigned subjects
+- [x] Publish → GradeCalculator → exam_results + subject_results
+- [x] Mark sheet PDF per student (bn/en), bulk PDF per section (queued)
+- [x] Tabulation sheet per section (landscape PDF)
+- [x] Result summary: pass rate, GPA distribution, subject-wise fail count
+- [x] Result SMS to guardians
+- [x] Mark audit log visible to admin
+- [x] All GradeCalculator tests in business-rules.md §2 pass
 
 ## 8. Notices & SMS
-- [ ] Notice CRUD with audience
-- [ ] Custom SMS: choose class/section/all guardians, preview part count and cost
-- [ ] SMS log page with balance
+- [x] Notice CRUD with audience
+- [x] Custom SMS: choose class/section/all guardians, preview part count and cost
+- [x] SMS log page with balance
 
 ## 9. Dashboard (school_admin)
-- [ ] Today: students present/absent %, staff present
-- [ ] This month: fees collected vs billed, total dues
-- [ ] Latest exam: pass rate
-- [ ] Quick actions: take attendance, collect fee, enter marks
+- [x] Today: students present/absent %, staff present
+- [x] This month: fees collected vs billed, total dues
+- [x] Latest exam: pass rate
+- [x] Quick actions: take attendance, collect fee, enter marks
 
 ## 10. Demo seed data (`DemoSchoolSeeder`)
 - [ ] One school "Tongi Model High School" (subdomain `demo`), current year 2026

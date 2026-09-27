@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { formatDate, formatNumber } from './format';
+import { formatDate, formatMoney, formatNumber } from './format';
 
 describe('formatDate', () => {
     it('formats as DD/MM/YYYY', () => {
@@ -24,5 +24,19 @@ describe('formatNumber', () => {
         expect(formatNumber(40, 'bn')).toBe('৪০');
         expect(formatNumber(40, 'en')).toBe('40');
         expect(formatNumber(null, 'bn')).toBe('');
+    });
+});
+
+describe('formatMoney', () => {
+    it('groups by lakh and drops .00', () => {
+        expect(formatMoney('125000.50', 'en')).toBe('1,25,000.50');
+        expect(formatMoney('1250.00', 'en')).toBe('1,250');
+        expect(formatMoney('999', 'en')).toBe('999');
+        expect(formatMoney('12345678.5', 'en')).toBe('1,23,45,678.50');
+        expect(formatMoney(null, 'en')).toBe('');
+    });
+
+    it('uses Bangla digits for bn', () => {
+        expect(formatMoney('1500.00', 'bn')).toBe('১,৫০০');
     });
 });

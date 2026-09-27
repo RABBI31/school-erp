@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Foundation\Testing\DatabaseTruncation;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -17,6 +18,11 @@ use Tests\TestCase;
 pest()->extend(TestCase::class)
     ->use(RefreshDatabase::class)
     ->in('Feature');
+
+// Concurrency tests need committed data other processes can see: truncate, don't wrap in a transaction.
+pest()->extend(TestCase::class)
+    ->use(DatabaseTruncation::class)
+    ->in('Concurrency');
 
 /*
 |--------------------------------------------------------------------------
@@ -48,3 +54,7 @@ function something()
 {
     // ..
 }
+
+require_once __DIR__.'/Feature/Attendance/AttendanceTestHelpers.php';
+require_once __DIR__.'/Feature/Fees/FeeTestHelpers.php';
+require_once __DIR__.'/Feature/Exams/ExamTestHelpers.php';

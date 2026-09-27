@@ -26,7 +26,8 @@ class SchoolProfileController extends Controller
         $school = $this->school();
 
         return Inertia::render('Setup/Profile', [
-            'profile' => $school->only(['name_en', 'name_bn', 'eiin', 'address', 'phone', 'email', 'default_locale']),
+            'profile' => $school->only(['name_en', 'name_bn', 'eiin', 'address', 'phone', 'email', 'default_locale', 'absent_sms_enabled']),
+            'smsBalance' => $school->sms_balance,
             'logoUrl' => $school->logo_path ? Storage::disk('public')->url($school->logo_path) : null,
             'hasSignature' => $school->principal_signature_path !== null,
         ]);

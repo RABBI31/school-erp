@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import ConfirmDelete from '@/components/ConfirmDelete.vue';
+import FeeWaivers from '@/components/fees/FeeWaivers.vue';
 import FormField from '@/components/FormField.vue';
 import PageHeader from '@/components/PageHeader.vue';
 import StatusBadge from '@/components/students/StatusBadge.vue';
@@ -14,6 +15,7 @@ import { usePermissions } from '@/composables/usePermissions';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { formatDate, formatNumber } from '@/lib/format';
 import type { BreadcrumbItem } from '@/types';
+import type { FeeHead, FeeWaiver } from '@/types/fees';
 import type { Guardian, GuardianMatch, GuardianRelation, StudentProfile } from '@/types/students';
 import { Head, Link, router, useForm } from '@inertiajs/vue3';
 import { Pencil, Phone, Plus, Star, Trash2, UserRound } from 'lucide-vue-next';
@@ -23,6 +25,11 @@ const props = defineProps<{
     student: StudentProfile;
     hasPhoto: boolean;
     relations: GuardianRelation[];
+    attendance: { days: number; present: number; absent: number; late: number; leave: number; percent: number | null } | null;
+    /** Only for users who can see fees. */
+    enrollmentId?: number | null;
+    waivers?: FeeWaiver[];
+    feeHeads?: FeeHead[];
 }>();
 
 const { localized, locale } = useLocalized();
@@ -166,6 +173,30 @@ const siblings = (guardian: Guardian) => guardian.students.filter((child) => chi
                     </div>
                 </dl>
             </section>
+
+            <!-- Attendance in the viewed year -->
+            <section v-if="attendance" class="rounded-xl border p-4 md:p-6">
+                <h2 class="mb-4 font-semibold">
+                    {{ $t('attendance.summary', { year: formatNumber($page.props.academicYear?.name ?? '', locale) }) }}
+                </h2>
+                <p v-if="attendance.days === 0" class="text-sm text-muted-foreground">{{ $t('attendance.noRecords') }}</p>
+                <dl v-else class="grid grid-cols-3 gap-4 sm:grid-cols-6">
+                    <div>
+                        <dt class="text-xs text-muted-foreground">{{ $t('attendance.percent') }}</dt>
+                        <dd class="text-2xl font-semibold">{{ formatNumber(attendance.percent, locale) }}</dd>
+                    </div>
+                    <div>
+                        <dt class="text-xs text-muted-foreground">{{ $t('attendance.days') }}</dt>
+                        <dd class="text-lg">{{ formatNumber(attendance.days, locale) }}</dd>
+                    </div>
+                    <div v-for="status in ['present', 'absent', 'late', 'leave'] as const" :key="status">
+                        <dt class="text-xs text-muted-foreground">{{ $t(`enums.attendance.${status}`) }}</dt>
+                        <dd class="text-lg">{{ formatNumber(attendance[status], locale) }}</dd>
+                    </div>
+                </dl>
+            </section>
+
+            <FeeWaivers v-if="feeHeads" :enrollment-id="enrollmentId ?? null" :waivers="waivers ?? []" :fee-heads="feeHeads" />
 
             <!-- Guardians -->
             <section class="rounded-xl border p-4 md:p-6">

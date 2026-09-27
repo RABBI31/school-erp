@@ -20,6 +20,10 @@ Update the **Status** table in `docs/planning.md` when a module is finished.
 - `spatie/laravel-permission` with **teams enabled** (team = school)
 - Excel/CSV import: `rap2hpoutre/fast-excel` (see `StudentImporter`).
 - PDF: `spatie/browsershot` (headless Chrome) so Bangla text renders correctly. Do NOT use dompdf for anything containing Bangla — it breaks conjuncts.
+- SMS: `App\Services\Sms\SmsService` (charges `sms_balance` per part, logs to `sms_logs`); driver from `SMS_DRIVER` (`log` in dev). Templates in `lang/{bn,en}/sms.php`.
+- Queued jobs run without a request, so they carry the school id and set `CurrentSchool` themselves (see `SendAbsentSms`); dispatch side effects after commit (`ShouldQueueAfterCommit`). Restart the `queue` container after changing job code.
+- PDF rendering goes through `App\Services\Pdf\PdfRenderer` (Blade view → Browsershot); tests swap in `FakePdfRenderer`, which returns the HTML so tests can assert on the text. Views in `resources/views/pdf/`, labels in `lang/{bn,en}/<doc>.php`.
+- Fees: invoice and receipt numbers come from `App\Services\Fees\DocumentNumber` inside a transaction (locks the school row). Money math uses `App\Support\Money` (integer paisa, `format()` for lakh grouping); `formatMoney()` in TS.
 - Queues, cache and sessions: `database` driver for the demo. Redis later (the image has no phpredis extension yet).
 - Tests: Pest (`pestphp/pest`, `pestphp/pest-plugin-laravel`) for PHP; Vitest for TS helpers (`npm test`, files named `*.test.ts` next to the code).
 - i18n: `vue-i18n` (frontend strings). `laravel-lang/lang` (dev) supplies Laravel's own messages in Bangla — validation, auth, pagination — in `lang/bn`. Language is a per-session choice (বাংলা/EN toggle), not a URL prefix; don't add `mcamara/laravel-localization`.
@@ -65,6 +69,8 @@ Use:
 - Validation rules bypass the scope: never use plain `exists:`/`unique:` on tenant tables. Use `existsInSchool()` / `uniqueInSchool()` from `App\Http\Requests\Concerns\SchoolRules`.
 - Every module needs at least one test proving school A cannot see or edit school B's data.
 - School routes go inside the `Route::middleware('school')` group in `routes/web.php` (404 on the bare domain).
+- Tests that need real concurrency (forked processes, committed data) go in `tests/Concurrency/`, which truncates instead of wrapping each test in a transaction — see `ReceiptNumberConcurrencyTest`.
+- Tests use a storage path under `/tmp` (set in `tests/TestCase.php`) so `Storage::fake()` stays off the Docker Desktop bind mount, which intermittently fails to re-create deleted directories.
 - Tests: `$this->inSchool($school)` sends requests to that school's subdomain and makes it current; `$this->schoolUser()` creates a user in a (new) school; `$this->forSchool($other, fn () => ...)` creates another school's records. See `tests/Feature/Tenancy/` and the `resources` dataset in `tests/Feature/Setup/SetupCrudTest.php`.
 
 ## Roles & permissions — spatie/laravel-permission only
@@ -74,6 +80,7 @@ Use:
 - Roles: `school_admin`, `accountant`, `teacher`, `guardian` (see `docs/data-model.md`). Create them once with `school_id = null` so every school shares the definitions; assign them to users per school.
 - Permissions are named `<module>.<action>`, matching route names (`students.create`, `fees.collect`, `marks.enter`). Seed roles and permissions in `RolesAndPermissionsSeeder` using `firstOrCreate` (idempotent), then call `app(PermissionRegistrar::class)->forgetCachedPermissions()`.
 - Check **permissions, not roles**: `$user->can('fees.collect')` inside Policies, or `can:` route middleware — one check per route. `hasRole()` is only for the few places that are truly role-specific (e.g. "teachers see only their assigned subjects").
+- Teachers are limited to their assigned sections (class or subject teacher, per year): use `App\Services\Staff\AssignedSections::for($user, $yearId)` (null = not restricted) to filter queries, and a Policy (see `StudentPolicy`) for single records. Attendance and marks must do the same.
 - `ResolveSchool` middleware calls `setPermissionsTeamId($school->id)` before any authorization runs. Tests that act as a school user must set it too.
 - The frontend receives `auth.permissions` (array of names) as a shared Inertia prop to hide buttons and menu items. That is cosmetic — the server check is what protects the route.
 
@@ -83,8 +90,8 @@ Use:
 - Attendance, invoices, marks all reference `enrollment_id`, not `student_id`.
 - **Invoices and payments are separate tables.** A payment can be partial; dues = invoice total − waivers − payments.
 - Money: `decimal(12,2)`, cast `decimal:2`, never floats in PHP math — use integers of paisa or `bcmath` in services.
-- GPA calculation lives only in `App\Services\Exams\GradeCalculator`. Nothing else computes grades.
-- Published results are locked. Changing a mark after publishing requires unpublishing, and every mark change is written to `mark_audits`.
+- GPA calculation lives only in `App\Services\Exams\GradeCalculator` (pure PHP, unit tested in `tests/Unit/GradeCalculatorTest.php`). Nothing else computes grades. Marks and points are integers in hundredths there (`Hundredths`), like paisa for money.
+- Published results are locked. Changing a mark after publishing requires unpublishing, and every mark change is written to `mark_audits` — write marks only through `MarkService`.
 - Guardians can have several children. Phone number is NOT unique per student. Phones are stored normalized (`App\Support\Phone::normalize`, 11 digits `01…`); siblings share a guardian found by phone.
 - A student's personal photo and other private files go on the `local` disk and are served through an authorized route, never `public`.
 

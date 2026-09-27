@@ -23,6 +23,7 @@ function profileData(array $overrides = []): array
         'phone' => '01711000000',
         'email' => 'office@example.com',
         'default_locale' => 'bn',
+        'absent_sms_enabled' => true,
         ...$overrides,
     ];
 }
@@ -72,4 +73,10 @@ test('the signature is only served to setup admins', function () {
     $teacher->assignRole('teacher');
 
     $this->actingAs($teacher)->get('/setup/profile/signature')->assertForbidden();
+});
+
+test('absent SMS can be switched off', function () {
+    $this->post('/setup/profile', profileData(['absent_sms_enabled' => false]))->assertSessionHasNoErrors();
+
+    expect($this->admin->school->refresh()->absent_sms_enabled)->toBeFalse();
 });

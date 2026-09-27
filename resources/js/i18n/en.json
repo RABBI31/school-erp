@@ -28,7 +28,13 @@
         "settings": "Settings",
         "logout": "Log out",
         "setup": "School setup",
-        "students": "Students"
+        "students": "Students",
+        "staff": "Staff",
+        "attendance": "Attendance",
+        "fees": "Fees",
+        "exams": "Exams",
+        "notices": "Notices",
+        "sms": "SMS"
     },
     "shell": {
         "academicYear": "Academic year",
@@ -48,7 +54,27 @@
         "confirmSubmit": "Confirm password"
     },
     "dashboard": {
-        "title": "Dashboard"
+        "title": "Dashboard",
+        "today": "Today",
+        "weekend": "Weekend — no classes today.",
+        "attendanceTitle": "Student attendance",
+        "notTaken": "Not taken yet today.",
+        "sectionsTaken": "{taken} of {total} sections taken",
+        "staffTitle": "Staff present",
+        "feesTitle": "Fees this month",
+        "collected": "Collected",
+        "billed": "Billed",
+        "dues": "Total dues (this year)",
+        "examTitle": "Latest exam",
+        "passRate": "Pass rate",
+        "gpa5": "GPA 5.00",
+        "noExam": "No published exam yet.",
+        "quick": "Quick actions",
+        "takeAttendance": "Take attendance",
+        "collectFee": "Collect fee",
+        "enterMarks": "Enter marks",
+        "noticesTitle": "Notices",
+        "noNotices": "No notices."
     },
     "settings": {
         "title": "Settings",
@@ -95,7 +121,9 @@
             "logo": "Logo",
             "signature": "Principal’s signature",
             "uploadHint": "PNG, JPG or WebP, up to 1 MB",
-            "noSignature": "No signature uploaded yet"
+            "noSignature": "No signature uploaded yet",
+            "absentSms": "Send an SMS to the guardian when a student is absent",
+            "smsBalance": "SMS balance: {count}"
         },
         "years": {
             "title": "Academic years",
@@ -195,6 +223,72 @@
             "buddhism": "Buddhism",
             "christianity": "Christianity",
             "other": "Other"
+        },
+        "staffStatus": {
+            "active": "Active",
+            "left": "Left"
+        },
+        "role": {
+            "school_admin": "Admin",
+            "accountant": "Accountant",
+            "teacher": "Teacher"
+        },
+        "attendance": {
+            "present": "Present",
+            "absent": "Absent",
+            "late": "Late",
+            "leave": "Leave"
+        },
+        "attendanceShort": {
+            "present": "P",
+            "absent": "A",
+            "late": "L",
+            "leave": "Lv"
+        },
+        "feeHeadType": {
+            "monthly": "Monthly",
+            "one_time": "One-time",
+            "yearly": "Yearly"
+        },
+        "waiverType": {
+            "percent": "Percent",
+            "fixed": "Fixed amount"
+        },
+        "invoiceStatus": {
+            "unpaid": "Unpaid",
+            "partial": "Partly paid",
+            "paid": "Paid",
+            "cancelled": "Cancelled"
+        },
+        "paymentMethod": {
+            "cash": "Cash",
+            "bkash": "bKash",
+            "nagad": "Nagad",
+            "bank": "Bank",
+            "card": "Card"
+        },
+        "examStatus": {
+            "draft": "Draft",
+            "marks_entry": "Marks entry",
+            "published": "Published"
+        },
+        "noticeAudience": {
+            "all": "Everyone",
+            "guardians": "Guardians",
+            "staff": "Staff",
+            "class": "One class"
+        },
+        "smsType": {
+            "absent": "Absent",
+            "result": "Result",
+            "due": "Due",
+            "notice": "Notice",
+            "custom": "Custom"
+        },
+        "smsStatus": {
+            "queued": "Queued",
+            "sent": "Sent",
+            "failed": "Failed"
         }
     },
     "students": {
@@ -284,6 +378,411 @@
             "failedTitle": "{count} rows were not imported",
             "row": "Row",
             "errors": "Problems"
+        }
+    },
+    "staff": {
+        "title": "Staff",
+        "description": "Teachers and office staff. Give a login to those who use the app.",
+        "add": "Add staff",
+        "editTitle": "Edit staff",
+        "assignments": "Teacher assignments",
+        "code": "Code",
+        "name": "Name",
+        "nameEn": "Name (English)",
+        "nameBn": "Name (Bangla)",
+        "designation": "Designation",
+        "phone": "Mobile number",
+        "email": "Email",
+        "joiningDate": "Joining date",
+        "status": "Status",
+        "photo": "Photo",
+        "codeHint": "Leave empty to number automatically (E-0001, E-0002, …).",
+        "leftHint": "Setting “Left” also removes their login.",
+        "login": {
+            "title": "Login",
+            "none": "No login. This person cannot sign in.",
+            "has": "Signs in with their mobile number or email as:",
+            "role": "Role",
+            "password": "Password",
+            "newPassword": "New password",
+            "passwordHint": "At least 8 characters. Tell the person their password.",
+            "keepPassword": "Leave empty to keep the current password.",
+            "create": "Create login",
+            "save": "Save login",
+            "remove": "Remove login",
+            "removeConfirm": "the login of {name}",
+            "self": "This is your own login. Another admin must change it.",
+            "saveFirst": "Save the staff member first, then create a login."
+        },
+        "assign": {
+            "description": "Class teacher and subject teachers of a section for {year}.",
+            "noYear": "Add an academic year in School setup first.",
+            "section": "Section",
+            "pickSection": "Choose a section to assign its teachers.",
+            "classTeacher": "Class teacher",
+            "subject": "Subject",
+            "teacher": "Teacher",
+            "unassigned": "Not assigned",
+            "noSubjects": "This class has no subjects yet. Add them in School setup.",
+            "save": "Save assignments"
+        }
+    },
+    "attendance": {
+        "title": "Take attendance",
+        "description": "Everyone starts as present. Tap a student to change: present → absent → late → leave.",
+        "section": "Section",
+        "date": "Date",
+        "pickSection": "Choose a section.",
+        "noSections": "You are not assigned to any section this year.",
+        "noStudents": "No students in this section.",
+        "taken": "Attendance was already taken for this day. Changes will update it.",
+        "save": "Save attendance",
+        "allPresent": "All present",
+        "sheet": "Monthly sheet",
+        "staff": "Staff attendance",
+        "roll": "Roll",
+        "sheetDescription": "Students and days of the month. Shaded days are weekends.",
+        "month": "Month",
+        "student": "Student",
+        "percent": "%",
+        "summary": "Attendance ({year})",
+        "days": "Days recorded",
+        "noRecords": "No attendance recorded yet.",
+        "staffDescription": "Daily attendance of active staff. In and out times are optional.",
+        "inTime": "In",
+        "outTime": "Out",
+        "notRecorded": "Not recorded"
+    },
+    "fees": {
+        "title": "Fees",
+        "description": "Collect fees, bill each month and see who owes.",
+        "noYear": "Add an academic year in School setup first.",
+        "fields": {
+            "month": "Month",
+            "amount": "Amount",
+            "method": "Method",
+            "status": "Status",
+            "date": "Date",
+            "receiptNo": "Receipt",
+            "invoiceNo": "Invoice",
+            "student": "Student",
+            "class": "Class",
+            "roll": "Roll",
+            "subtotal": "Billed",
+            "waived": "Waived",
+            "total": "Total",
+            "paid": "Paid",
+            "due": "Due",
+            "dueDate": "Due date",
+            "collector": "Received by",
+            "phone": "Guardian phone",
+            "time": "Time",
+            "section": "Section",
+            "reference": "Transaction ID",
+            "note": "Note"
+        },
+        "cards": {
+            "collect": {
+                "title": "Collect fee",
+                "description": "Search a student, take payment, print the receipt."
+            },
+            "invoices": {
+                "title": "Invoices",
+                "description": "Monthly invoices; generate a month's invoices."
+            },
+            "heads": {
+                "title": "Fee heads",
+                "description": "Tuition, session fee, admission fee…"
+            },
+            "structure": {
+                "title": "Fee structure",
+                "description": "Amount per class for each fee head."
+            },
+            "daily": {
+                "title": "Daily collection",
+                "description": "What was collected on a day, by method and collector."
+            },
+            "dues": {
+                "title": "Dues list",
+                "description": "Who owes, with guardian phones; send due SMS."
+            },
+            "monthly": {
+                "title": "Monthly summary",
+                "description": "Billed, waived, collected and due for a month."
+            }
+        },
+        "heads": {
+            "title": "Fee heads",
+            "description": "What the school charges for. Monthly heads are billed every month; yearly once per year; one-time once per student.",
+            "add": "Add fee head",
+            "edit": "Edit fee head",
+            "nameEn": "Name (English)",
+            "nameBn": "Name (Bangla)",
+            "type": "Billing"
+        },
+        "structure": {
+            "title": "Fee structure",
+            "description": "Amount per class for {year}. Leave blank if a class does not pay that fee.",
+            "noHeads": "Add fee heads first.",
+            "noClasses": "Add classes in School setup first.",
+            "head": "Fee head"
+        },
+        "invoices": {
+            "title": "Invoices",
+            "description": "Invoices of {year}.",
+            "generate": "Generate invoices",
+            "generateTitle": "Generate invoices for a month",
+            "generateHelp": "Creates one invoice per active student with the monthly fees, plus yearly and one-time fees not yet billed. Waivers are applied. Running it again for the same month creates nothing new.",
+            "allSections": "All sections",
+            "allStatuses": "All statuses"
+        },
+        "collect": {
+            "title": "Collect fee",
+            "description": "Search by name, roll or student ID.",
+            "searchPlaceholder": "Name, roll or student ID…",
+            "noResults": "No student found in this academic year.",
+            "totalDue": "Total due",
+            "nothingDue": "Nothing due.",
+            "invoices": "Unpaid invoices",
+            "payAll": "Pay all",
+            "save": "Save payment",
+            "printReceipt": "Print receipt",
+            "recentPayments": "Recent payments",
+            "oldestFirst": "The payment is applied to the oldest invoice first.",
+            "change": "Change student"
+        },
+        "cancel": {
+            "action": "Cancel payment",
+            "title": "Cancel payment {receipt}?",
+            "description": "The payment is kept on record as cancelled and its amount is added back to the student's dues.",
+            "reason": "Reason",
+            "confirm": "Cancel payment",
+            "keep": "Keep"
+        },
+        "reports": {
+            "title": "Reports",
+            "daily": {
+                "title": "Daily collection",
+                "description": "Payments received on a day.",
+                "total": "Total collected",
+                "byMethod": "By method",
+                "byCollector": "By collector",
+                "none": "No payments on this day.",
+                "cancelled": "Cancelled",
+                "receipt": "Receipt"
+            },
+            "dues": {
+                "title": "Dues list",
+                "description": "Students of the viewed year who owe money.",
+                "total": "Total due",
+                "students": "{count} students",
+                "none": "Nobody owes anything.",
+                "since": "Since",
+                "invoices": "Invoices",
+                "allClasses": "All classes",
+                "allSections": "All sections",
+                "sendSms": "Send due SMS",
+                "sendSmsTitle": "Send due SMS?",
+                "sendSmsBody": "Each guardian with a phone number gets one SMS with their child's due amount ({count} guardians, about {parts} SMS). A guardian already reminded today is skipped.",
+                "balance": "SMS balance: {balance}",
+                "send": "Send"
+            },
+            "monthly": {
+                "title": "Monthly summary",
+                "description": "Invoices of the month and money collected during it.",
+                "billed": "Billed",
+                "collected": "Collected this month",
+                "invoices": "Invoices",
+                "paidInvoices": "Fully paid",
+                "none": "No invoices for this month."
+            }
+        },
+        "waivers": {
+            "title": "Fee waivers",
+            "add": "Add waiver",
+            "edit": "Edit waiver",
+            "head": "Fee head",
+            "type": "Type",
+            "value": "Waiver",
+            "reason": "Reason",
+            "none": "No waivers.",
+            "noEnrollment": "Not enrolled in the viewed academic year.",
+            "help": "Applies to invoices generated from now on; invoices already issued are not changed."
+        }
+    },
+    "exams": {
+        "title": "Exams",
+        "description": "Exams of {year}: set up subjects, enter marks, publish results.",
+        "add": "New exam",
+        "edit": "Edit exam",
+        "nameEn": "Name (English)",
+        "nameBn": "Name (Bangla)",
+        "startDate": "Start date",
+        "scheme": "Grading scheme",
+        "none": "No exams yet.",
+        "subjects": "{count} subjects",
+        "status": "Status",
+        "delete": "Delete exam",
+        "actions": {
+            "setup": "Set up",
+            "marks": "Enter marks",
+            "results": "Results",
+            "summary": "Summary",
+            "audits": "Mark changes",
+            "grading": "Grading"
+        },
+        "show": {
+            "description": "Subjects and full / pass marks per class.",
+            "addClassSubjects": "Add all subjects of this class",
+            "copyPrevious": "Copy from previous exam",
+            "noSubjects": "No subjects for this class yet.",
+            "subject": "Subject",
+            "full": "Full",
+            "pass": "Pass",
+            "cq": "CQ",
+            "mcq": "MCQ",
+            "practical": "Practical",
+            "total": "Total",
+            "editMarks": "Full and pass marks",
+            "partsHelp": "Fill the parts this subject uses (e.g. CQ and MCQ); the student must pass each part and the total. Leave all parts empty to use the total only.",
+            "marksEntered": "{count} marks entered",
+            "open": "Open marks entry",
+            "openHelp": "Teachers can then enter marks. Subjects can still be changed.",
+            "publish": "Publish results",
+            "publishTitle": "Publish results?",
+            "publishHelp": "GPA, grades and merit positions are calculated for every student. Marks are then locked. Publishing is refused while any mark is missing.",
+            "unpublish": "Unpublish",
+            "unpublishTitle": "Unpublish results?",
+            "unpublishHelp": "Marks become editable again. Publish again after correcting them; results are recalculated.",
+            "deleteSubject": "Remove subject",
+            "class": "Class"
+        },
+        "grading": {
+            "title": "Grading",
+            "description": "Percent ranges, letters and points. The whole range 0–100 must be covered.",
+            "min": "From %",
+            "max": "To %",
+            "letter": "Letter",
+            "point": "Point",
+            "addRule": "Add row",
+            "removeRule": "Remove row"
+        },
+        "marks": {
+            "title": "Enter marks",
+            "pick": "Choose section and subject",
+            "noOptions": "No subjects assigned to you in this exam.",
+            "absent": "Absent",
+            "total": "Total",
+            "full": "Full marks: {full}",
+            "pass": "Pass: {pass}",
+            "saving": "Saving…",
+            "saved": "All changes saved",
+            "unsaved": "Unsaved changes",
+            "failed": "Not saved — check the red cells",
+            "saveNow": "Save now",
+            "locked": "Results are published, so marks are locked.",
+            "notOpen": "Marks entry has not been opened for this exam yet.",
+            "noStudents": "No students take this subject in this section.",
+            "help": "Enter or Tab moves down; Shift goes up. Changes save automatically.",
+            "tooHigh": "More than {full}"
+        },
+        "results": {
+            "title": "Results",
+            "pick": "Choose a section",
+            "notPublished": "Results are not published yet.",
+            "none": "No results in this section.",
+            "gpa": "GPA",
+            "letter": "Grade",
+            "total": "Total",
+            "position": "Position",
+            "positionClass": "In class",
+            "fails": "Failed subjects",
+            "marksheet": "Mark sheet",
+            "tabulation": "Tabulation sheet",
+            "prepareMarksheets": "Prepare all mark sheets",
+            "downloadMarksheets": "Download all mark sheets",
+            "preparing": "Preparing… this page refreshes when ready.",
+            "sendSms": "Send result SMS",
+            "sendSmsTitle": "Send result SMS?",
+            "sendSmsBody": "Each guardian gets one SMS with their child's GPA. Guardians already sent one for this exam are skipped.",
+            "send": "Send"
+        },
+        "summary": {
+            "title": "Result summary",
+            "students": "Students",
+            "passed": "Passed",
+            "passRate": "Pass rate",
+            "grades": "GPA distribution",
+            "subjectFails": "Failures per subject",
+            "noFails": "Nobody failed a subject."
+        },
+        "audits": {
+            "title": "Mark changes",
+            "description": "Every mark entered or changed, newest first.",
+            "when": "When",
+            "who": "By",
+            "student": "Student",
+            "subject": "Subject",
+            "from": "From",
+            "to": "To",
+            "none": "No marks entered yet.",
+            "absent": "absent"
+        }
+    },
+    "notices": {
+        "title": "Notices",
+        "description": "Notices for everyone, staff, guardians or one class. Staff see them on the dashboard.",
+        "add": "New notice",
+        "edit": "Edit notice",
+        "titleEn": "Title (English)",
+        "titleBn": "Title (Bangla)",
+        "bodyEn": "Text (English)",
+        "bodyBn": "Text (Bangla)",
+        "audience": "For",
+        "class": "Class",
+        "publishedAt": "Publish from",
+        "attachment": "Attachment (PDF or image, up to 5 MB)",
+        "attachmentKept": "Leave empty to keep the current file.",
+        "open": "Open attachment",
+        "scheduled": "Scheduled",
+        "none": "No notices yet.",
+        "sendSms": "Also send to guardians by SMS",
+        "smsPreview": "{recipients} guardians × {parts} SMS = {cost} (balance {balance})",
+        "smsShort": "Not enough SMS balance.",
+        "smsHelp": "Sent in the school's language, from the title and text. Only when the notice is created.",
+        "heading": "Title"
+    },
+    "sms": {
+        "title": "Send SMS",
+        "description": "A message to the primary guardian of every active student — the whole school, a class or a section. Siblings' shared guardian gets it once.",
+        "message": "Message",
+        "allClasses": "All classes",
+        "allSections": "All sections",
+        "characters": "{count} characters",
+        "recipients": "Recipients",
+        "parts": "SMS per message",
+        "cost": "Total SMS",
+        "balance": "Balance",
+        "short": "Not enough balance for everyone; nothing will be sent.",
+        "send": "Send",
+        "confirmTitle": "Send this SMS?",
+        "confirmBody": "{recipients} guardians get this message, using {cost} SMS from the balance.",
+        "log": {
+            "title": "SMS log",
+            "description": "Every SMS the school has sent or tried to send.",
+            "balance": "SMS balance",
+            "sentMonth": "Sent this month",
+            "partsMonth": "SMS used this month",
+            "failedMonth": "Failed this month",
+            "to": "To",
+            "message": "Message",
+            "type": "Type",
+            "status": "Status",
+            "parts": "SMS",
+            "when": "When",
+            "allTypes": "All types",
+            "allStatuses": "All statuses",
+            "compose": "Send SMS"
         }
     }
 }
